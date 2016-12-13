@@ -1,7 +1,19 @@
+// Currently testing template code for FB user authentication
+// Template Source: https://github.com/passport/express-4.x-facebook-example
+
+require('dotenv').config({ silent: true });
 var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
+var {FB, FacebookApiException} = require('fb');
 
+var options = FB.options();
+FB.options({version: 'v2.8', appId: process.env.CLIENT_ID, appSecret: process.env.CLIENT_SECRET});
+
+var {Facebook, FacebookApiException} = require('fb'),
+fb = new Facebook(options);
+
+// FB.setAccessToken(process.env.ACCESS_TOKEN);
 
 // Configure the Facebook strategy for use by Passport.
 //
@@ -52,7 +64,9 @@ app.set('view engine', 'ejs');
 
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
-app.use(require('morgan')('combined'));
+const logger = require('morgan');
+app.use(logger('dev'));
+
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
@@ -66,6 +80,7 @@ app.use(passport.session());
 // Define routes.
 app.get('/',
   function(req, res) {
+    callAPI()
     res.render('home', { user: req.user });
   });
 
@@ -77,7 +92,7 @@ app.get('/login',
 app.get('/login/facebook',
   passport.authenticate('facebook'));
 
-app.get('/login/facebook/return', 
+app.get('/login/facebook/return',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
     res.redirect('/');
@@ -88,5 +103,31 @@ app.get('/profile',
   function(req, res){
     res.render('profile', { user: req.user });
   });
+
+function callAPI() {
+  // FB.api('4', function (res) {
+  //   if(!res || res.error) {
+  //    console.log(!res ? 'error occurred' : res.error);
+  //    return;
+  // }
+  //   console.log(res.id);
+  //   console.log(res.name);
+  // });
+  //
+  // FB.api(
+  // '/me',
+  // 'get',
+  // {
+  //   access_token : process.env.ACCESS_TOKEN,
+  //   // additional_parameter_foo : 'bar'
+  // }
+  // );
+  //
+
+  FB.api('/4', {fields: 'last_name'}, function(response) {
+    console.log(response);
+  });
+}
+
 
 app.listen(3000);
