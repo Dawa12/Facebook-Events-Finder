@@ -25,9 +25,29 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'ReactJS Hello World',
       xhtml: true,
-      inject: false,
+      inject: true,
       template: require('html-webpack-template'),
-      appMountId: 'root-container'
+      appMountId: 'root-container',
+      // scripts: [
+      //   // "/socket.io/socket.io.js"
+      //   // "https://maps.googleapis.com/maps/api/js?key=AIzaSyCzVkLA7e6e-kwBRasdSM90ZQif2NN64OA"
+      //   window.fbAsyncInit = function() {
+      //     FB.init({
+      //       appId      : process.env.CLIENT_ID,
+      //       xfbml      : true,
+      //       version    : 'v2.8'
+      //     });
+      //     FB.AppEvents.logPageView();
+      //   };
+      //
+      //   (function(d, s, id){
+      //      var js, fjs = d.getElementsByTagName(s)[0];
+      //      if (d.getElementById(id)) {return;}
+      //      js = d.createElement(s); js.id = id;
+      //      js.src = "//connect.facebook.net/en_US/sdk.js";
+      //      fjs.parentNode.insertBefore(js, fjs);
+      //    }(document, 'script', 'facebook-jssdk'));
+      // ]
     }),
     new ExtractTextPlugin('/css/[name].css', {
       allChunks: true
