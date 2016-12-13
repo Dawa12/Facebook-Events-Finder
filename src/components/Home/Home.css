@@ -1,0 +1,9 @@
+html,
+body {
+  height: 100vh;
+  background-color: lightblue;
+}
+
+body {
+  text-align: center;
+}
