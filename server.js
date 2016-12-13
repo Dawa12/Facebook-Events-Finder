@@ -123,7 +123,7 @@ function callAPI() {
   // }
   // );
   //
-
+  // this is a public api call and shouldn't require an accesstoken but error says I need an acccess token. This should return FB user with id 4, which is the FB founder Mark Zuckerberg
   FB.api('/4', {fields: 'last_name'}, function(response) {
     console.log(response);
   });
