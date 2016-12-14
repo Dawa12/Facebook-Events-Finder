@@ -5,12 +5,13 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
 const PORT = process.env.PORT || 3000
+
 const passport = require('passport');
 const Strategy = require('passport-facebook').Strategy;
 const {FB, FacebookApiException} = require('fb');
 app = express();
 
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(logger('dev'));
 
@@ -68,7 +69,7 @@ app.use('/api', (req,res) => {
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 
-app.get('*', function (request, response){   response.sendFile(path.resolve(__dirname, 'dist', 'index.html')) })
+// app.get('*', function (request, response){   response.sendFile(path.resolve(__dirname, 'dist', 'index.html')) })
 
 // app.get('/login',
 //   // function(req, res){
