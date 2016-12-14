@@ -16,7 +16,6 @@ class App extends Component {
 
       // do FB get calls inside of getLoginStatus method
       // source: http://stackoverflow.com/questions/26709869/an-active-access-token-must-be-used-to-query-information-about-the-current-user
-
       FB.login(function(response) {
       // handle the response
       }, {scope: 'email,user_likes'});
@@ -30,34 +29,19 @@ class App extends Component {
               console.log('response', response);
 
               let likes_array = response.likes.data
-              console.log('likes_array', likes_array);
-
-              document.getElementById('status').innerHTML = response.first_name
-
-//               console.log('likes_array[1].events', likes_array[1].events);
-//
-// if (likes_array[1].events) {
-//   console.log('likes_array[1].events.data[0].name', likes_array[1].events.data[0].name);
-// } else {
-//   console.log('it is undefined');
-// }
-
-              // console.log('likes_array[1].events.data[0].name', likes_array[1].events.data[0].name);
-
+              // console.log('likes_array', likes_array);
 
               for (let i = 0; i < likes_array.length; i++) {
-  console.log('i', i);
-
+  // console.log('i', i);
                 let description = document.createElement("P");
                  if (likes_array[i].events) {
-console.log('inside if true');
+// console.log('inside if true');
                    description.textContent = likes_array[i].events.data[0].name
                  } else {
-         console.log('inside if false');
-                   console.log('no events for ', likes_array[i].about);
+        //  console.log('inside if false');
+                  //  console.log('no events for ', likes_array[i].about);
                  }
-
-      console.log('description', description);
+      // console.log('description', description);
                 document.body.appendChild(description);
               }
             });
@@ -105,7 +89,6 @@ console.log('inside if true');
          <div className="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false" data-scope="user_likes"></div>
 
          <div id="parent">
-           <p id="status"></p>
            <p id="about"></p>
            <p id="cateogry"></p>
            <p id="category_list"></p>
