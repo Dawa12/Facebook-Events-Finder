@@ -13,122 +13,148 @@ class App extends Component {
         xfbml      : true,
         version    : 'v2.8'
       });
+
       FB.AppEvents.logPageView();
 
-      // do FB get calls inside of getLoginStatus method
-      // source: http://stackoverflow.com/questions/26709869/an-active-access-token-must-be-used-to-query-information-about-the-current-user
       FB.login(function(response) {
       // handle the response
       }, {scope: 'email,user_likes'});
 
+
+      // do FB get calls inside of getLoginStatus method
+      // source: http://stackoverflow.com/questions/26709869/an-active-access-token-must-be-used-to-query-information-about-the-current-user
+
+      // once user is logged in, execute this large block
       FB.getLoginStatus(function(response) {
           if (response.status === 'connected') {
-console.log('Logged in.');
-
             FB.api('/me', 'GET', {fields: 'likes{about,category,category_list,description,events.limit(2)},first_name,last_name,name,id,picture.width(150).height(150)'}, function(response) {
-              // document.getElementById('status').innerHTML = "<img src='" + response.picture.data.url + "'>";
-// console.log('response', response);
-
+console.log('response', response);
               let likes_array = response.likes.data
 
-  let event_name1 = document.createElement("P");
-  event_name1.id = "red"
+let event_name1 = document.createElement("P");
+event_name1.id = "red"
 document.getElementById('about').appendChild(event_name1)
   // document.body.appendChild(event_name1)
 
-              for (let i = 0; i < likes_array.length; i++) {
-console.log('i', i);
-// console.log('likes_array[i]', likes_array[i]);
+loop_events(likes_array)
 
+
+    // FB.api('/1084646081549144', 'GET', function(response) {
+    //   // document.getElementById('status').innerHTML = "<img src='" + response.picture.data.url + "'>";
+
+            function loop_events(events) {
+              // Loop through all events
+              for (let i = 0; i < likes_array.length; i++) {
+// console.log('i', i);
+// console.log('likes_array[i]', likes_array[i]);
                 let event_name = document.createElement("P");
                 event_name.className = "event_name"
-
                 // console.log('event_name', event_name);
                 let location = document.createElement("P");
                 let name = document.createElement("P");
 
                 // let description = document.createElement("P");
 
-                 if (likes_array[i].events) {// console.log('inside if true');
-console.log('inside 1st if condition ... beginning');
-                   event_name.textContent = 'Event: ' + likes_array[i].events.data[0].name
-console.log('inside 1st if condition');
-                   if (likes_array[i].events.data[0].place) {
-console.log('inside 2nd if condition');
-console.log('success !!  likes_array[i].events.data[0].place.name', likes_array[i].events.data[0].place.name);
-                      location.textContent = 'Location: ' + likes_array[i].events.data[0].place.name
-                   } else {
-console.log('inside 2nd else condition');
-console.log('no name for ', likes_array[i].events.data[0]);
+                if (likes_array[i].events) {// console.log('inside if true');
+                  event_name.textContent = 'Event: ' + likes_array[i].events.data[0].name
+
+                  if (likes_array[i].events.data[0].place) {
+                    location.textContent = 'Location: ' + likes_array[i].events.data[0].place.name
+                  } else {
                     //  continue
-                   }
-                 } else {
+                  }
+                } else {
 //  console.log('inside if false');
 //  console.log('no events for ', likes_array[i].about);
-                 }
+                }
 
                 var hold_name;
+                let page_picture = document.createElement("IMG");
 
-                // function getPageName() {
+
+getPageName()
+                function getPageName() {
                   FB.api(
-                    `/${likes_array[i].id}`,
+                    `/${likes_array[i].id}?fields=picture,name`,
+
                     function (response) {
                       if (response && !response.error) {
                         /* handle the result */
                         // console.log('page name', response.name);
                         hold_name = response.name
+                        // getPagePicture()
+console.log('response inside event', response);
+                        page_picture.setAttribute("src", response.picture.data.url)
+                        document.body.appendChild(page_picture);
                       }
-
                       // Append Elements to document.body
                       appendElementsToDocument()
                     }
                   )
 
-              function appendElementsToDocument() {
-                name.textContent = 'Name: ' + hold_name
-                console.log('name', name);
-                if (!(name.textContent.length == 0)) {
-                  document.body.appendChild(name);
+                  // .then(function(response) {
+                  //   getPagePicture()
+                  // })
                 }
 
-                if (!(event_name.textContent.length == 0)) {
-                document.body.appendChild(event_name);
+                function getPagePicture() {
+                  FB.api(
+                    `/${likes_array[i].id}/picture`,
+                    function (response) {
+                      if (response && !response.error) {
+                        /* handle the result */
+// console.log('picture response...', response.data.url);
+                        // page_picture = <img src=`${response.data.url}`>
+                        {/* // document.getElementById('status').innerHTML = "<img src='" + response.picture.data.url + "'>"; */}
+let page_picture = document.createElement("IMG");
+page_picture.setAttribute("src", response.data.url)
+document.body.appendChild(page_picture);
+                      }
+                    }
+                  );
                 }
 
-                if (!(location.textContent.length == 0)) {
-                  document.body.appendChild(location);
+
+                function appendElementsToDocument() {
+                  name.textContent = 'Name: ' + hold_name
+                  // console.log('name', name);
+
+                  if (!(name.textContent.length == 0)) {
+                    document.body.appendChild(name);
+                  }
+                  if (!(event_name.textContent.length == 0)) {
+                    document.body.appendChild(event_name);
+                  }
+
+                  if (!(location.textContent.length == 0)) {
+                    document.body.appendChild(location);
+                  }
+
+                  // if (!(page_picture.textContent.length == 0)) {
+                    // document.body.appendChild(page_picture);
+                  // }
+                  let separator = document.createElement("P")
+                  separator.textContent = "-------------------"
+                  document.body.appendChild(separator)
                 }
+// closing for loop block
               }
-              }
-            });
+            }
+
+// closing FB.api('/me'
+            })
+
+          // closing FB.login conditional
           } else {
 console.log('initiate FB login...');
-            // FB.login();
+            // FB.loginStatus if condition
           }
+// closing FB.getLoginStatus function
 
-          // FB.api('/1084646081549144', 'GET', function(response) {
-          //   // document.getElementById('status').innerHTML = "<img src='" + response.picture.data.url + "'>";
-          // console.log('response', response);
         });
+// closing window.fbAsyncInit
     };
 
-// console.log('likes_array[i].events.data.description', likes_array[i].events.data.description);
-// console.log('likes_array[i]', likes_array[i]);
-// console.log('likes_array[i].events', likes_array[i].events);
-// console.log('likes_array[i].data[0]', likes_array[i].data[0]);
-
-              // let el = document.createElement("P");
-              // el.textContent = likes_array[i].about
-              // let el = document.createElement("P");
-              // el.textContent = likes_array[i].about
-              // let el = document.createElement("P");
-              // el.textContent = likes_array[i].about
-              // let el = document.createElement("P");
-              // el.textContent = likes_array[i].about
-    // document.getElementById('category').innerHTML = response.likes{category},
-    // document.getElementById('category_list').innerHTML = response.likes{category_list},
-    // document.getElementById('description').innerHTML = response.likes{description},
-    // document.getElementById('events').innerHTML = response.likes{events}
 
     (function(d, s, id){
        var js, fjs = d.getElementsByTagName(s)[0];
@@ -137,6 +163,8 @@ console.log('initiate FB login...');
        js.src = "//connect.facebook.net/en_US/sdk.js";
        fjs.parentNode.insertBefore(js, fjs);
      }(document, 'script', 'facebook-jssdk'));
+
+// closing componentDidMounts
   };
 
   render(){
