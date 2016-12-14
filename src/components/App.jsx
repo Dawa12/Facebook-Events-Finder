@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Style from './App.css';
 // require('dotenv') from '../../.env'
 
 class App extends Component {
@@ -22,41 +23,86 @@ class App extends Component {
 
       FB.getLoginStatus(function(response) {
           if (response.status === 'connected') {
-            console.log('Logged in.');
+console.log('Logged in.');
 
             FB.api('/me', 'GET', {fields: 'likes{about,category,category_list,description,events.limit(2)},first_name,last_name,name,id,picture.width(150).height(150)'}, function(response) {
               // document.getElementById('status').innerHTML = "<img src='" + response.picture.data.url + "'>";
-              console.log('response', response);
+// console.log('response', response);
 
               let likes_array = response.likes.data
-              // console.log('likes_array', likes_array);
-
               for (let i = 0; i < likes_array.length; i++) {
-  // console.log('i', i);
-                let description = document.createElement("P");
-                 if (likes_array[i].events) {
-// console.log('inside if true');
-                   description.textContent = likes_array[i].events.data[0].name
+console.log('i', i);
+// console.log('likes_array[i]', likes_array[i]);
+
+                let event_name = document.createElement("P");
+                event_name.className = "event_name"
+                console.log('event_name', event_name);
+                let location = document.createElement("P");
+                let name = document.createElement("P");
+
+                // let description = document.createElement("P");
+
+                 if (likes_array[i].events) {// console.log('inside if true');
+console.log('inside 1st if condition ... beginning');
+                   event_name.textContent = 'Event: ' + likes_array[i].events.data[0].name
+console.log('inside 1st if condition');
+                   if (likes_array[i].events.data[0].place) {
+console.log('inside 2nd if condition');
+console.log('success !!  likes_array[i].events.data[0].place.name', likes_array[i].events.data[0].place.name);
+                      location.textContent = 'Location: ' + likes_array[i].events.data[0].place.name
+                   } else {
+console.log('inside 2nd else condition');
+console.log('no name for ', likes_array[i].events.data[0]);
+                    //  continue
+                   }
                  } else {
-        //  console.log('inside if false');
-                  //  console.log('no events for ', likes_array[i].about);
+//  console.log('inside if false');
+//  console.log('no events for ', likes_array[i].about);
                  }
-      // console.log('description', description);
-                document.body.appendChild(description);
+
+                var hold_name;
+
+                // function getPageName() {
+                  FB.api(
+                    `/${likes_array[i].id}`,
+                    function (response) {
+                      if (response && !response.error) {
+                        /* handle the result */
+                        // console.log('page name', response.name);
+                        hold_name = response.name
+                      }
+
+                      // Append Elements to document.body
+                      appendElementsToDocument()
+                    }
+                  )
+
+              function appendElementsToDocument() {
+                name.textContent = 'Name: ' + hold_name
+                // console.log('name', name);
+                document.body.appendChild(name);
+                document.body.appendChild(event_name);
+                document.body.appendChild(location);
+              }
+
+
               }
             });
-          }
-          else {
-            console.log('initiate FB login...');
+          } else {
+console.log('initiate FB login...');
             // FB.login();
           }
+
+          // FB.api('/1084646081549144', 'GET', function(response) {
+          //   // document.getElementById('status').innerHTML = "<img src='" + response.picture.data.url + "'>";
+          // console.log('response', response);
         });
     };
 
-    // console.log('likes_array[i].events.data.description', likes_array[i].events.data.description);
-    // console.log('likes_array[i]', likes_array[i]);
-    // console.log('likes_array[i].events', likes_array[i].events);
-    // console.log('likes_array[i].data[0]', likes_array[i].data[0]);
+// console.log('likes_array[i].events.data.description', likes_array[i].events.data.description);
+// console.log('likes_array[i]', likes_array[i]);
+// console.log('likes_array[i].events', likes_array[i].events);
+// console.log('likes_array[i].data[0]', likes_array[i].data[0]);
 
               // let el = document.createElement("P");
               // el.textContent = likes_array[i].about

@@ -25,7 +25,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'ReactJS Hello World',
       xhtml: true,
-      inject: true,
+      inject: false,
       template: require('html-webpack-template'),
       appMountId: 'root-container',
       // scripts: [
