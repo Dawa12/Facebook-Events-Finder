@@ -9,6 +9,9 @@ const PORT = process.env.PORT || 3000
 const passport = require('passport');
 const Strategy = require('passport-facebook').Strategy;
 const {FB, FacebookApiException} = require('fb');
+
+const eventsRoute = require './routes/eventsRoute.js'
+
 app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -55,6 +58,9 @@ passport.serializeUser(function(user, cb) {
 passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
+
+
+app.use('/', eventsRoute)
 
 app.use('/api', (req,res) => {
   res.send('hello')
