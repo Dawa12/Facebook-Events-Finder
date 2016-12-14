@@ -33,7 +33,8 @@ console.log('Logged in.');
 
   let event_name1 = document.createElement("P");
   event_name1.id = "red"
-  document.body.appendChild(event_name1)
+document.getElementById('about').appendChild(event_name1)
+  // document.body.appendChild(event_name1)
 
               for (let i = 0; i < likes_array.length; i++) {
 console.log('i', i);
@@ -79,7 +80,7 @@ console.log('no name for ', likes_array[i].events.data[0]);
                       }
 
                       // Append Elements to document.body
-                      // appendElementsToDocument()
+                      appendElementsToDocument()
                     }
                   )
 
