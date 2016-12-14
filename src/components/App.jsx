@@ -30,13 +30,19 @@ console.log('Logged in.');
 // console.log('response', response);
 
               let likes_array = response.likes.data
+
+  let event_name1 = document.createElement("P");
+  event_name1.id = "red"
+  document.body.appendChild(event_name1)
+
               for (let i = 0; i < likes_array.length; i++) {
 console.log('i', i);
 // console.log('likes_array[i]', likes_array[i]);
 
                 let event_name = document.createElement("P");
                 event_name.className = "event_name"
-                console.log('event_name', event_name);
+
+                // console.log('event_name', event_name);
                 let location = document.createElement("P");
                 let name = document.createElement("P");
 
@@ -73,19 +79,25 @@ console.log('no name for ', likes_array[i].events.data[0]);
                       }
 
                       // Append Elements to document.body
-                      appendElementsToDocument()
+                      // appendElementsToDocument()
                     }
                   )
 
               function appendElementsToDocument() {
                 name.textContent = 'Name: ' + hold_name
-                // console.log('name', name);
-                document.body.appendChild(name);
+                console.log('name', name);
+                if (!(name.textContent.length == 0)) {
+                  document.body.appendChild(name);
+                }
+
+                if (!(event_name.textContent.length == 0)) {
                 document.body.appendChild(event_name);
-                document.body.appendChild(location);
+                }
+
+                if (!(location.textContent.length == 0)) {
+                  document.body.appendChild(location);
+                }
               }
-
-
               }
             });
           } else {
@@ -136,7 +148,7 @@ console.log('initiate FB login...');
 
          <div id="parent">
            <p id="about"></p>
-           <p id="cateogry"></p>
+           <p id="category"></p>
            <p id="category_list"></p>
            <p id="description"></p>
            <p id="events"></p>

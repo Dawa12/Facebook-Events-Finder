@@ -25,10 +25,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'ReactJS Hello World',
       xhtml: true,
-      inject: false,
+      inject: true,
       template: require('html-webpack-template'),
       appMountId: 'root-container',
-      // scripts: [
+      scripts: [
       //   // "/socket.io/socket.io.js"
       //   // "https://maps.googleapis.com/maps/api/js?key=AIzaSyCzVkLA7e6e-kwBRasdSM90ZQif2NN64OA"
       //   window.fbAsyncInit = function() {
@@ -47,7 +47,8 @@ module.exports = {
       //      js.src = "//connect.facebook.net/en_US/sdk.js";
       //      fjs.parentNode.insertBefore(js, fjs);
       //    }(document, 'script', 'facebook-jssdk'));
-      // ]
+
+      ]
     }),
     new ExtractTextPlugin('/css/[name].css', {
       allChunks: true
