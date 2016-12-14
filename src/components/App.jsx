@@ -25,47 +25,41 @@ class App extends Component {
           if (response.status === 'connected') {
             console.log('Logged in.');
 
-            // FB.api('/me', 'GET', {fields: 'first_name,last_name,name,id,picture.width(150).height(150)'}, function(response) {
-            //   // document.getElementById('status').innerHTML = "<img src='" + response.picture.data.url + "'>";
-            //   console.log('response', response);
-            //   document.getElementById('status').innerHTML = response.first_name
-            // });
-            //
-
             FB.api('/me', 'GET', {fields: 'likes{about,category,category_list,description,events.limit(2)},first_name,last_name,name,id,picture.width(150).height(150)'}, function(response) {
               // document.getElementById('status').innerHTML = "<img src='" + response.picture.data.url + "'>";
               console.log('response', response);
 
               let likes_array = response.likes.data
-              let likes = response.likes.data[0]
-              console.log('likes', response.likes.data[0]);
+              console.log('likes_array', likes_array);
 
-              document.getElementById('status').innerHTML = response.first_name,
-              document.getElementById('about').innerHTML = likes.about
+              document.getElementById('status').innerHTML = response.first_name
 
-              let el = document.createElement("P");
-              el.textContent = likes.about
-              document.body.appendChild(el);
+//               console.log('likes_array[1].events', likes_array[1].events);
+//
+// if (likes_array[1].events) {
+//   console.log('likes_array[1].events.data[0].name', likes_array[1].events.data[0].name);
+// } else {
+//   console.log('it is undefined');
+// }
 
-              // var newDiv = document.createElement("div");
-              // newDiv.style.background = "red"
-              // document.body.appendChild(newDiv)
-
-
-
-              // for (let i = 0; i < likes_array.length; i++) {
-              //   let element = document.createElement("p").id = `about-${i}`;
-              //   document.append(element)
-              // }
+              // console.log('likes_array[1].events.data[0].name', likes_array[1].events.data[0].name);
 
 
+              for (let i = 0; i < likes_array.length; i++) {
+  console.log('i', i);
 
+                let description = document.createElement("P");
+                 if (likes_array[i].events) {
+console.log('inside if true');
+                   description.textContent = likes_array[i].events.data[0].name
+                 } else {
+         console.log('inside if false');
+                   console.log('no events for ', likes_array[i].about);
+                 }
 
-
-              // document.getElementById('category').innerHTML = response.likes{category},
-              // document.getElementById('category_list').innerHTML = response.likes{category_list},
-              // document.getElementById('description').innerHTML = response.likes{description},
-              // document.getElementById('events').innerHTML = response.likes{events}
+      console.log('description', description);
+                document.body.appendChild(description);
+              }
             });
           }
           else {
@@ -74,6 +68,24 @@ class App extends Component {
           }
         });
     };
+
+    // console.log('likes_array[i].events.data.description', likes_array[i].events.data.description);
+    // console.log('likes_array[i]', likes_array[i]);
+    // console.log('likes_array[i].events', likes_array[i].events);
+    // console.log('likes_array[i].data[0]', likes_array[i].data[0]);
+
+              // let el = document.createElement("P");
+              // el.textContent = likes_array[i].about
+              // let el = document.createElement("P");
+              // el.textContent = likes_array[i].about
+              // let el = document.createElement("P");
+              // el.textContent = likes_array[i].about
+              // let el = document.createElement("P");
+              // el.textContent = likes_array[i].about
+    // document.getElementById('category').innerHTML = response.likes{category},
+    // document.getElementById('category_list').innerHTML = response.likes{category_list},
+    // document.getElementById('description').innerHTML = response.likes{description},
+    // document.getElementById('events').innerHTML = response.likes{events}
 
     (function(d, s, id){
        var js, fjs = d.getElementsByTagName(s)[0];
