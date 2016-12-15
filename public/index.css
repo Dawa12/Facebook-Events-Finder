@@ -1,0 +1,105 @@
+html,
+body {
+  height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  text-align: center;
+  width: 95%;
+  font-size: 19px;
+  margin: 0 auto;
+}
+
+.event_name {
+  /*color: red;*/
+  /*background-color: blue;*/
+}
+
+#about {
+  /*width: 100px;*/
+  /*height: 100px;*/
+  /*background-color: blue;*/
+}
+
+/*p {
+  color: black;
+}*/
+/*
+.fb-login-button {
+  background-color: red;
+  height: 100px;
+  width: 100px;
+}*/
+
+#fbLogout {
+  height: 35px;
+  length: 65px;
+}
+
+button:hover,
+#fbLogout {
+  cursor:pointer
+}
+
+.flex-parent {
+  margin-bottom: 100px;
+  width: 100%;
+  height: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;;
+  flex-wrap: wrap;
+}
+
+.parent {
+  /*flex: 0 0 25em;*/
+  width: 30%;
+  height: 250px;
+  margin: 85px 0 85px 0;
+  /*display: inline-block;*/
+}
+
+img {
+  height: 110px;
+  width: 110px;
+  margin: 0 auto;
+}
+
+.feed {
+  width: 90%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.feed-parent {
+  margin: 0 auto 70px;
+  text-align: center;
+}
+
+button {
+  height: 40px;
+  width: 80px;
+  position: relative;
+  top: -14px;
+  /*display: block;*/
+}
+
+.post {
+  border: 2px solid black;
+}
+
+.title {
+
+}
+
+a {
+  display: inline-block;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.page_picture {
+  margin-bottom: 50px;
+}
