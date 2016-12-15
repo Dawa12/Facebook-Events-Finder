@@ -159,6 +159,7 @@ console.log('start_time', start_time);
 
 
         $('.fb-login-button').show()
+        $('#visit-buttton').hide()
         $('#fbLogout').hide()
                     // FB.loginStatus if condition
                   }
@@ -196,7 +197,7 @@ console.log('start_time', start_time);
     <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false" onlogin="window.location.reload()"></div>
 
     <a href="/posts">
-      <button type="button" name="button">Visit Feed</button>
+      <button id="visit-buttton" type="button" name="button">Visit Feed</button>
     </a>
   </body>
 </html>

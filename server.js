@@ -6,7 +6,7 @@ const eventsRoute = require ('./routes/eventsRoute')
 const postsRoute = require ('./routes/postsRoute')
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.argv[2] || process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
