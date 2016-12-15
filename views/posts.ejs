@@ -43,16 +43,15 @@
                     $('.fb-login-button').hide()
                     $('#fbLogout').show()
 
-                    FB.api('/me', 'GET', {fields: 'likes.limit(10){about,category,category_list,description,events.limit(2)},first_name,last_name,name,id,picture.width(150).height(150)'}, function(response) {
+                    FB.api('/me', 'GET', {fields: 'likes.limit(10),id'}, function(response) {
 console.log('response', response);
                       let likes_array = response.likes.data
 
                     let flex_parent = document.createElement("div")
-                    flex_parent.className = "flex-parent"
+                    flex_parent.className = "feed"
                     let heading = document.createElement('h2')
-                    heading.textContent = "Showing Upcoming Events"
+                    heading.textContent = "Showing Fan Page News Feed"
                     document.body.appendChild(heading)
-
 
                     loop_events(likes_array)
                     document.body.appendChild(flex_parent)
@@ -60,29 +59,12 @@ console.log('response', response);
                     // Loop through all events
                     function loop_events(events) {
                       for (let i = 0; i < likes_array.length; i++) {
-                        let event_name = document.createElement("P");
-                        event_name.className = "event_name"
-                        // console.log('event_name', event_name);
-                        let location = document.createElement("P");
-                        let name = document.createElement("P");
-
-                        if (likes_array[i].events) {// console.log('inside if true');
-                          event_name.textContent = 'Event: ' + likes_array[i].events.data[0].name
-                          if (likes_array[i].events.data[0].place) {
-                            location.textContent = 'Location: ' + likes_array[i].events.data[0].place.name
-                          } else {
-                            //  continue
-                          }
-                        } else {
-        //  console.log('inside if false');
-        //  console.log('no events for ', likes_array[i].about);
-                        }
-
+console.log('likes_array.length', likes_array.length);
                         var hold_name;
                         let page_picture = document.createElement("IMG");
                         let container = $('<div/>').addClass('container')
                         let parent = document.createElement("div")
-                        parent.className = "parent"
+                        parent.className = "feed-parent"
 
                         getPageName()
 
@@ -102,9 +84,12 @@ console.log('response', response);
                         }
 
                         function appendElementsToDocument(arr) {
+// console.log();
+let name = document.createElement("P");
+
                           name.textContent = 'Name: ' + hold_name
                           // console.log('name', name);
-
+console.log('name', name);
                           if (!(name.textContent.length == 0)) {
                             // document.body.appendChild(name);
                             parent.appendChild(name)
@@ -112,23 +97,7 @@ console.log('response', response);
 console.log('container', container);
 
                           }
-                          if (!(event_name.textContent.length == 0)) {
-                            // document.body.append(event_name);
-                            parent.appendChild(event_name)
-                          }
-
-                          if (!(location.textContent.length == 0)) {
-                            // document.body.append(location);
-                            // $('.container').append(location)
-                            parent.appendChild(location)
-                          }
-
-console.log('arr[i]', arr[i]);
-      let link = document.createElement('a')
-      link.setAttribute('href', `https://www.facebook.com/events/${arr[i].events.data[0].id}`)
-      link.textContent = "Go to Event Page"
-      parent.appendChild(link)
-
+//
       flex_parent.appendChild(parent)
       // document.body.appendChild(separator)
 
@@ -182,6 +151,10 @@ console.log('arr[i]', arr[i]);
     <img id="fbLogout"src="logout.png" alt="logout">
 
     <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false" onlogin="window.location.reload()"></div>
+
+    <a href="/">
+      <button type="button" name="button">Visit Events</button>
+    </a>
 
   </body>
 </html>

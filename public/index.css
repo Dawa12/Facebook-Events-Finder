@@ -32,7 +32,7 @@ body {
 }*/
 
 #fbLogout {
-  height: 23px;
+  height: 35px;
   length: 65px;
 }
 
@@ -61,4 +61,20 @@ body {
 img {
   height: 70px;
   width: 70px;
+  margin: 0 auto;
+}
+
+.feed {
+  width: 90%;
+  text-align: center;
+}
+
+.feed-parent {
+  margin: 0 auto 70px;
+
+}
+
+button {
+  height: 40px;
+  width: 80px;
 }
