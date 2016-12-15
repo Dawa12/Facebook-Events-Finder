@@ -31,7 +31,8 @@
     "passport": "^0.2.2",
     "fb": "^1.1.1",
     "express-session": "^1.11.3",
-    "passport-facebook": "^2.0.0"
+    "passport-facebook": "^2.0.0",
+    "ejs": "^2.5.2"
   },
   "devDependencies": {
     "dotenv": "^2.0.0"
