@@ -3,9 +3,6 @@
   $('#head').css('color', 'red')
   // console.log(getElementsByTagName('p'));
 
-
-
-
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '1843900205894102',
