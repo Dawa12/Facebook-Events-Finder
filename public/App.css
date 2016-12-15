@@ -1,14 +1,20 @@
 .event_name {
-  color: red;
-  background-color: blue;
+  /*color: red;*/
+  /*background-color: blue;*/
 }
 
 #about {
   /*width: 100px;*/
-  height: 100px;
-  background-color: blue;
+  /*height: 100px;*/
+  /*background-color: blue;*/
 }
 
-p {
-  color: violet;
-}
+/*p {
+  color: black;
+}*/
+/*
+.fb-login-button {
+  background-color: red;
+  height: 100px;
+  width: 100px;
+}*/
