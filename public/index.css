@@ -18,3 +18,12 @@
   height: 100px;
   width: 100px;
 }*/
+
+#fbLogout {
+  height: 23px;
+  length: 65px;
+}
+
+#fbLogout:hover {
+  cursor:pointer
+}
