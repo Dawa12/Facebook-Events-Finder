@@ -43,7 +43,7 @@
                     $('.fb-login-button').hide()
                     $('#fbLogout').show()
 
-                    FB.api('/me', 'GET', {fields: 'likes.limit(10){about,category,category_list,description,events.limit(2)},first_name,last_name,name,id,picture.width(150).height(150)'}, function(response) {
+                    FB.api('/me', 'GET', {fields: 'likes.limit(20){about,category,category_list,description,events.limit(2){start_time,end_time,name}},first_name,last_name,name,id,picture.width(150).height(150)'}, function(response) {
 console.log('response', response);
                       let likes_array = response.likes.data
 
@@ -68,6 +68,13 @@ console.log('response', response);
 
                         if (likes_array[i].events) {// console.log('inside if true');
                           event_name.textContent = 'Event: ' + likes_array[i].events.data[0].name
+                          var start_time = document.createElement("p");
+
+
+                          start_time.textContent = likes_array[i].events.data[0].start_time
+
+console.log('start_time.textContent inside condition', start_time.textContent);
+
                           if (likes_array[i].events.data[0].place) {
                             location.textContent = 'Location: ' + likes_array[i].events.data[0].place.name
                           } else {
@@ -83,6 +90,9 @@ console.log('response', response);
                         let container = $('<div/>').addClass('container')
                         let parent = document.createElement("div")
                         parent.className = "parent"
+
+                        parent.appendChild(start_time)
+
 
                         getPageName()
 
@@ -109,12 +119,14 @@ console.log('response', response);
                             // document.body.appendChild(name);
                             parent.appendChild(name)
                             // $('.container').append(name)
-console.log('container', container);
+// console.log('container', container);
 
                           }
                           if (!(event_name.textContent.length == 0)) {
                             // document.body.append(event_name);
                             parent.appendChild(event_name)
+console.log('start_time', start_time);
+                            // parent.appendChild(start_time)
                           }
 
                           if (!(location.textContent.length == 0)) {
@@ -123,7 +135,7 @@ console.log('container', container);
                             parent.appendChild(location)
                           }
 
-console.log('arr[i]', arr[i]);
+// console.log('arr[i]', arr[i]);
       let link = document.createElement('a')
       link.setAttribute('href', `https://www.facebook.com/events/${arr[i].events.data[0].id}`)
       link.textContent = "Go to Event Page"
@@ -174,7 +186,7 @@ console.log('arr[i]', arr[i]);
     </script>
 
     <div>
-      <h1 id="head">Fan Page Events</h1>
+      <h1 id="head">Fan Page Follower</h1>
     </div>
     <!-- <span id="fbLogout"><a class="fb_button fb_button_medium"><span class="fb_button_text">Logout</span></a></span> -->
 

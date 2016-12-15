@@ -43,7 +43,8 @@
                     $('.fb-login-button').hide()
                     $('#fbLogout').show()
 
-                    FB.api('/me', 'GET', {fields: 'likes.limit(4),id'}, function(response) {
+
+                    FB.api('/me', 'GET', {fields: 'likes.limit(10),id'}, function(response) {
 console.log('response', response);
                       let likes_array = response.likes.data
 
@@ -62,6 +63,7 @@ console.log('response', response);
 console.log('likes_array.length', likes_array.length);
                         var hold_name;
                         let page_picture = document.createElement("IMG");
+                        page_picture.className = "page_picture"
                         let container = $('<div/>').addClass('container')
                         let parent = document.createElement("div")
                         parent.className = "feed-parent"
@@ -81,6 +83,11 @@ console.log('likes_array.length', likes_array.length);
                               if (response && !response.error) {
 console.log('getPageName response', response);
                                 hold_name = response.name
+
+                                // Append page name to document.body
+                                appendElementsToDocument(likes_array)
+
+                                // append page picture
                                 page_picture.setAttribute("src", response.picture.data.url)
                                 parent.appendChild(page_picture)
 
@@ -88,13 +95,11 @@ console.log('response.posts.data.full_picture...', response.posts.data.full_pict
                                 // post_picture.setAttribute("src", response.posts.data[0].full_picture)
                                 // parent.appendChild(post_picture)
 
-                                let posts = response.posts
-                                appendPosts(posts)
-console.log('posts', posts);
 
                               }
-                              // Append Elements to document.body
-                              appendElementsToDocument(likes_array)
+                              let posts = response.posts
+                              appendPosts(posts)
+                              console.log('posts', posts);
                             }
                           )
                         }
@@ -114,6 +119,7 @@ console.log('posts', posts);
                             post.appendChild(image)
                             // parent.appendChild(image)
 
+                            post.appendChild(document.createElement("br"))
                             let link = document.createElement('a')
                             link.setAttribute('href', `https://www.facebook.com/${arr.data[i].object_id}`)
                             link.textContent = "Go to Post Page"
@@ -126,28 +132,22 @@ console.log('posts', posts);
                           }
                         }
 
-
-
                         function appendElementsToDocument(arr) {
-// console.log();
-let name = document.createElement("P");
+                          let name = document.createElement("h1");
+                          name.textContent = hold_name
+                          name.className = "title"
 
-                          name.textContent = 'Name: ' + hold_name
-                          // console.log('name', name);
-console.log('name', name);
                           if (!(name.textContent.length == 0)) {
                             // document.body.appendChild(name);
                             parent.appendChild(name)
                             // $('.container').append(name)
-console.log('container', container);
-
                           }
 //
       flex_parent.appendChild(parent)
       // document.body.appendChild(separator)
-
-                          // $('body').append(container)
                         }
+
+
         // closing for loop block
                       }
                     }
@@ -162,6 +162,7 @@ console.log('container', container);
 
         $('.fb-login-button').show()
         $('#fbLogout').hide()
+        $('button').hide()
                     // FB.loginStatus if condition
                   }
               // closing FB.getLoginStatus function
@@ -188,11 +189,8 @@ console.log('container', container);
     </script>
 
     <div>
-      <h1 id="head">Fan Page Events</h1>
+      <h1 id="head">Fan Page Follower</h1>
     </div>
-    <!-- <span id="fbLogout"><a class="fb_button fb_button_medium"><span class="fb_button_text">Logout</span></a></span> -->
-
-
     <img id="fbLogout"src="logout.png" alt="logout">
 
     <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false" onlogin="window.location.reload()"></div>
