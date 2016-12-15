@@ -78,3 +78,7 @@ button {
   height: 40px;
   width: 80px;
 }
+
+.post {
+  border: 2px solid black;
+}

@@ -43,7 +43,7 @@
                     $('.fb-login-button').hide()
                     $('#fbLogout').show()
 
-                    FB.api('/me', 'GET', {fields: 'likes.limit(10),id'}, function(response) {
+                    FB.api('/me', 'GET', {fields: 'likes.limit(4),id'}, function(response) {
 console.log('response', response);
                       let likes_array = response.likes.data
 
@@ -67,21 +67,66 @@ console.log('likes_array.length', likes_array.length);
                         parent.className = "feed-parent"
 
                         getPageName()
+                        // getPosts()
+
+
+                        let post_picture = document.createElement("IMG");
+
+
 
                         function getPageName() {
                           FB.api(
-                            `/${likes_array[i].id}?fields=picture,name`,
+                            `/${likes_array[i].id}?fields=picture,name,posts.limit(7){full_picture,link,message,object_id}`,
                             function (response) {
                               if (response && !response.error) {
+console.log('getPageName response', response);
                                 hold_name = response.name
                                 page_picture.setAttribute("src", response.picture.data.url)
                                 parent.appendChild(page_picture)
+
+console.log('response.posts.data.full_picture...', response.posts.data.full_picture);
+                                // post_picture.setAttribute("src", response.posts.data[0].full_picture)
+                                // parent.appendChild(post_picture)
+
+                                let posts = response.posts
+                                appendPosts(posts)
+console.log('posts', posts);
+
                               }
                               // Append Elements to document.body
                               appendElementsToDocument(likes_array)
                             }
                           )
                         }
+
+                        function appendPosts(arr) {
+                          for (var i = 0; i < arr.data.length; i++) {
+                            let post = document.createElement('div')
+                            post.className = 'post'
+
+                            let message = document.createElement('p')
+                            message.textContent = arr.data[i].message
+                            post.appendChild(message)
+                            // parent.appendChild(post)
+
+                            let image = document.createElement('img')
+                            image.setAttribute("src", arr.data[i].full_picture)
+                            post.appendChild(image)
+                            // parent.appendChild(image)
+
+                            let link = document.createElement('a')
+                            link.setAttribute('href', `https://www.facebook.com/${arr.data[i].object_id}`)
+                            link.textContent = "Go to Post Page"
+                            post.appendChild(link)
+
+                            console.log('link...', link);
+
+                            parent.appendChild(post)
+
+                          }
+                        }
+
+
 
                         function appendElementsToDocument(arr) {
 // console.log();
