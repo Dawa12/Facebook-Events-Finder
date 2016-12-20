@@ -90,7 +90,10 @@
 
             FB.api('/me', 'GET', {fields: 'likes.limit(20){about,category,category_list,description,events.limit(2){start_time,end_time,name}},first_name,last_name,name,id,picture.width(150).height(150)'}, function(response) {
 console.log('response', response);
+
               let likes_array = response.likes.data
+
+console.log('likes_array: ', likes_array);
             //
             let flex_parent = document.getElementById("flex-parent")
             // flex_parent.className = "flex-parent"
@@ -98,14 +101,19 @@ console.log('response', response);
 
             let heading = document.createElement('h2')
             heading.textContent = "Showing Upcoming Events"
-            document.body.appendChild(heading)
+            // document.body.appendChild(heading)
 
             loop_events(likes_array)
-
 
             // Loop through all events
             function loop_events(events) {
               for (let i = 0; i < likes_array.length; i++) {
+
+                // skip showing fan page if it does not contain any events
+                if (!(likes_array[i].events)) {
+                 continue
+                }
+
                 let event_name = document.createElement("P");
                 event_name.className = "event_name"
                 // console.log('event_name', event_name);
@@ -183,7 +191,9 @@ console.log('start_time', start_time);
 
 // console.log('arr[i]', arr[i]);
 let link = document.createElement('a')
+
 link.setAttribute('href', `https://www.facebook.com/events/${arr[i].events.data[0].id}`)
+
 link.textContent = "Go to Event Page"
 parent.appendChild(link)
 
@@ -237,6 +247,9 @@ $('#fbLogout').hide()
     <a href="/posts">
       <button id="visit-buttton" type="button" name="button">Visit Feed</button>
     </a>
+
+    <br>
+    
 
     <fb:login-button class="fb-login-button" scope="public_profile,email" onlogin="checkLoginState();" data-auto-logout-link="true">
     </fb:login-button>

@@ -72,6 +72,7 @@ img {
   width: 90%;
   text-align: center;
   margin: 0 auto;
+  /*display: inline;*/
 }
 
 .feed-parent {
@@ -96,7 +97,7 @@ button {
 }
 
 a {
-  display: block;
+  /*display: inline;*/
   margin-top: 20px;
   margin-bottom: 40px;
 }
