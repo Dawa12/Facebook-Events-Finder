@@ -1,3 +1,212 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Liked Page</title>
+    <link rel="stylesheet" href="/index.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1843900205894102";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+            window.fbAsyncInit = function() {
+              FB.init({
+                appId      : '1843900205894102',
+                status: true,
+                cookie: true,
+                xfbml      : true,
+                version    : 'v2.8'
+              });
+
+              FB.AppEvents.logPageView();
+
+              FB.login(function(response) {
+              // handle the response
+                window.location.reload();
+                console.log('reloading page....');
+              }, {scope: 'email,user_likes'});
+
+              // do FB get calls inside of getLoginStatus method
+              // source: http://stackoverflow.com/questions/26709869/an-active-access-token-must-be-used-to-query-information-about-the-current-user
+              // once user is logged in, execute this large block
+              FB.getLoginStatus(function(response) {
+                  if (response.status === 'connected') {
+                    $('.fb-login-button').hide()
+                    $('#fbLogout').show()
+
+
+                    FB.api('/me', 'GET', {fields: 'likes.limit(10),id'}, function(response) {
+console.log('response', response);
+                      let likes_array = response.likes.data
+
+                    let flex_parent = document.createElement("div")
+                    flex_parent.className = "feed"
+                    let heading = document.createElement('h2')
+                    heading.textContent = "Showing Fan Page News Feed"
+                    document.body.appendChild(heading)
+
+                    loop_events(likes_array)
+                    document.body.appendChild(flex_parent)
+
+                    // Loop through all events
+                    function loop_events(events) {
+                      for (let i = 0; i < likes_array.length; i++) {
+console.log('likes_array.length', likes_array.length);
+                        var hold_name;
+                        let page_picture = document.createElement("IMG");
+                        page_picture.className = "page_picture"
+                        let container = $('<div/>').addClass('container')
+                        let parent = document.createElement("div")
+                        parent.className = "feed-parent"
+
+                        getPageName()
+                        // getPosts()
+
+
+                        let post_picture = document.createElement("IMG");
+
+
+
+                        function getPageName() {
+                          FB.api(
+                            `/${likes_array[i].id}?fields=picture,name,posts.limit(7){full_picture,link,message,object_id}`,
+                            function (response) {
+                              if (response && !response.error) {
+console.log('getPageName response', response);
+                                hold_name = response.name
+
+                                // Append page name to document.body
+                                appendElementsToDocument(likes_array)
+
+                                // append page picture
+                                page_picture.setAttribute("src", response.picture.data.url)
+                                parent.appendChild(page_picture)
+
+console.log('response.posts.data.full_picture...', response.posts.data.full_picture);
+                                // post_picture.setAttribute("src", response.posts.data[0].full_picture)
+                                // parent.appendChild(post_picture)
+
+
+                              }
+                              let posts = response.posts
+                              appendPosts(posts)
+                              console.log('posts', posts);
+                            }
+                          )
+                        }
+
+                        function appendPosts(arr) {
+                          for (var i = 0; i < arr.data.length; i++) {
+                            let post = document.createElement('div')
+                            post.className = 'post'
+
+                            let message = document.createElement('p')
+                            message.textContent = arr.data[i].message
+                            post.appendChild(message)
+                            // parent.appendChild(post)
+
+                            let image = document.createElement('img')
+                            image.setAttribute("src", arr.data[i].full_picture)
+                            post.appendChild(image)
+                            // parent.appendChild(image)
+
+                            post.appendChild(document.createElement("br"))
+                            let link = document.createElement('a')
+                            link.setAttribute('href', `https://www.facebook.com/${arr.data[i].object_id}`)
+                            link.textContent = "Go to Post Page"
+                            post.appendChild(link)
+
+                            console.log('link...', link);
+
+                            parent.appendChild(post)
+
+                          }
+                        }
+
+                        function appendElementsToDocument(arr) {
+                          let name = document.createElement("h1");
+                          name.textContent = hold_name
+                          name.className = "title"
+
+                          if (!(name.textContent.length == 0)) {
+                            // document.body.appendChild(name);
+                            parent.appendChild(name)
+                            // $('.container').append(name)
+                          }
+//
+      flex_parent.appendChild(parent)
+      // document.body.appendChild(separator)
+                        }
+
+
+        // closing for loop block
+                      }
+                    }
+
+        // closing FB.api('/me'
+                    })
+                  // closing FB.login conditional
+                  } else {
+        console.log('initiate FB login...');
+        console.log('Try logging in again, or reloading page to show events');
+
+
+        $('.fb-login-button').show()
+        $('#fbLogout').hide()
+        $('button').hide()
+                    // FB.loginStatus if condition
+                  }
+              // closing FB.getLoginStatus function
+                });
+              // closing window.fbAsyncInit
+            };
+
+            // reference for logout button: https://github.com/tomero/JS-Facebook-Login-SDK/blob/master/index.html#L106
+            $('#fbLogout').click(function() {
+              FB.getLoginStatus(function (response) {
+                if (response.authResponse) {
+                  var uid = response.authResponse.userID;
+                  var accessToken = response.authResponse.accessToken;
+                  FB.logout(function (response) {
+                    console.log(response);
+                    window.location.reload();
+                  });
+                } else {
+
+                }
+              });
+            });
+      })
+    </script>
+
+    <div>
+      <h1 id="head">Fan Page Follower</h1>
+    </div>
+    <img id="fbLogout"src="logout.png" alt="logout">
+
+    <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false" onlogin="window.location.reload()"></div>
+
+    <a href="/">
+      <button type="button" name="button">Visit Events</button>
+    </a>
+
+  </body>
+</html> -->
+
+
+
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -28,12 +237,6 @@
               });
 
               FB.AppEvents.logPageView();
-
-              FB.login(function(response) {
-              // handle the response
-                window.location.reload();
-                console.log('reloading page....');
-              }, {scope: 'email,user_likes'});
 
               // do FB get calls inside of getLoginStatus method
               // source: http://stackoverflow.com/questions/26709869/an-active-access-token-must-be-used-to-query-information-about-the-current-user
