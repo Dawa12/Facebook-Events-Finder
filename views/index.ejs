@@ -9,8 +9,12 @@
   <body>
     <div id="fb-root"></div>
     <script>
-
       // statusChangeCallback, checkLoginState, window.fbAsyncInit, testAPI functions referenced from FB docs to initialize Facebook Javascript SDK and setup app: https://developers.facebook.com/docs/facebook-login/web
+
+      $(function() {
+        // Handler for .ready() called.
+        $('#visit-button').hide()
+      });
 
       function statusChangeCallback(response) {
         // response object reflects user's logged in status and state as well as access token / user ID
@@ -19,18 +23,23 @@
         if (response.status === 'connected') {
           // Logged into your app and Facebook.
           testAPI();
+          setTimeout(checkForEvents, 4000)
+          $('#visit-button').show()
         } else if (response.status === 'not_authorized') {
           // The person is logged into Facebook, but not your app.
           document.getElementById('status').innerHTML = 'Please log ' +
             'into this app.';
+
         } else {
           // The person is not logged into Facebook, so we're not sure if
           // they are logged into this app or not.
           document.getElementById('status').innerHTML = 'Please log ' +
             'into Facebook.';
-
+          $('#visit-button').hide()
+          
           // upon logout of Facebook app, remove all events from page
           document.getElementById('flex-parent').innerHTML = ''
+          $('#visit-button').hide()
         }
       }
 
@@ -88,7 +97,7 @@
             // $('.fb-login-button').hide()
             $('#fbLogout').show()
 
-            FB.api('/me', 'GET', {fields: 'likes.limit(20){about,category,category_list,description,events.limit(2){start_time,end_time,name}},first_name,last_name,name,id,picture.width(150).height(150)'}, function(response) {
+            FB.api('/me', 'GET', {fields: 'likes.limit(500){about,category,category_list,description,events.limit(2){start_time,end_time,name}},first_name,last_name,name,id,picture.width(150).height(150)'}, function(response) {
 console.log('response', response);
 
               let likes_array = response.likes.data
@@ -114,6 +123,16 @@ console.log('likes_array: ', likes_array);
                  continue
                 }
 
+                var start_time = document.createElement("p");
+                start_time.textContent = likes_array[i].events.data[0].start_time
+
+                // skip the event if it's time is in the past
+                let fb_time = new Date(start_time.textContent)
+                let now = new Date()
+                if (now > fb_time) {
+                  continue
+                }
+
                 let event_name = document.createElement("P");
                 event_name.className = "event_name"
                 // console.log('event_name', event_name);
@@ -122,12 +141,6 @@ console.log('likes_array: ', likes_array);
 
                 if (likes_array[i].events) {// console.log('inside if true');
                   event_name.textContent = 'Event: ' + likes_array[i].events.data[0].name
-                  var start_time = document.createElement("p");
-
-
-                  start_time.textContent = likes_array[i].events.data[0].start_time
-
-console.log('start_time.textContent inside condition', start_time.textContent);
 
                   if (likes_array[i].events.data[0].place) {
                     location.textContent = 'Location: ' + likes_array[i].events.data[0].place.name
@@ -179,7 +192,7 @@ console.log('start_time.textContent inside condition', start_time.textContent);
                   if (!(event_name.textContent.length == 0)) {
                     // document.body.append(event_name);
                     parent.appendChild(event_name)
-console.log('start_time', start_time);
+// console.log('start_time', start_time);
                     // parent.appendChild(start_time)
                   }
 
@@ -222,22 +235,16 @@ $('#fbLogout').hide()
         });
       }
 
-
-    // reference for logout button: https://github.com/tomero/JS-Facebook-Login-SDK/blob/master/index.html#L106
-    $('#fbLogout').click(function() {
-      FB.getLoginStatus(function (response) {
-        if (response.authResponse) {
-          var uid = response.authResponse.userID;
-          var accessToken = response.authResponse.accessToken;
-          FB.logout(function (response) {
-            console.log(response);
-            window.location.reload();
-          });
+      function checkForEvents() {
+        if ($('#flex-parent').children().length <= 1) {
+          let message = $('<h5></h5>').text('None of the pages that you liked have upcoming events. Try visiting the Feed')
+          // $('#flex-parent').append(message)
+          alert('None of the pages that you liked have upcoming events. Try visiting the Feed')
         } else {
-
+          console.log('user has one or more upcoming events');
         }
-      });
-    });
+      }
+
     </script>
 
     <div>
@@ -245,13 +252,12 @@ $('#fbLogout').hide()
     </div>
 
     <a href="/posts">
-      <button id="visit-buttton" type="button" name="button">Visit Feed</button>
+      <button id="visit-button" type="button" name="button">Visit Feed</button>
     </a>
 
     <br>
-    
 
-    <fb:login-button class="fb-login-button" scope="public_profile,email" onlogin="checkLoginState();" data-auto-logout-link="true">
+    <fb:login-button class="fb-login-button" scope="public_profile,email" data-size="large" onlogin="checkLoginState();" data-auto-logout-link="true">
     </fb:login-button>
 
     <div id="status">
