@@ -51,7 +51,7 @@
         // source: http://stackoverflow.com/questions/26709869/an-active-access-token-must-be-used-to-query-information-about-the-current-user
         // once user is logged in, execute this large block
 
-      testAPI() {
+      function testAPI() {
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
               $('.fb-login-button').hide()
