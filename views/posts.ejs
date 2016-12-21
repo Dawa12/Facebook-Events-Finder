@@ -37,6 +37,7 @@
         statusChangeCallback(response);
       });
     }
+
       window.fbAsyncInit = function() {
         FB.init({
           appId      : '1843900205894102',
@@ -49,6 +50,8 @@
         // do FB get calls inside of getLoginStatus method
         // source: http://stackoverflow.com/questions/26709869/an-active-access-token-must-be-used-to-query-information-about-the-current-user
         // once user is logged in, execute this large block
+
+      testAPI() {
         FB.getLoginStatus(function(response) {
             if (response.status === 'connected') {
               $('.fb-login-button').hide()
@@ -177,6 +180,7 @@ flex_parent.appendChild(parent)
             }
         // closing FB.getLoginStatus function
           });
+        }
         // closing window.fbAsyncInit
       };
 
