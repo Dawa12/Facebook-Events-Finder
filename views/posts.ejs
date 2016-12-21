@@ -9,6 +9,34 @@
   <body>
     <div id="fb-root"></div>
     <script type="text/javascript">
+    function statusChangeCallback(response) {
+      // response object reflects user's logged in status and state as well as access token / user ID
+      console.log('response: ', response);
+
+      if (response.status === 'connected') {
+        // Logged into your app and Facebook.
+        testAPI();
+      } else if (response.status === 'not_authorized') {
+        // The person is logged into Facebook, but not your app.
+        document.getElementById('status').innerHTML = 'Please log ' +
+          'into this app.';
+      } else {
+        // The person is not logged into Facebook, so we're not sure if
+        // they are logged into this app or not.
+        document.getElementById('status').innerHTML = 'Please log ' +
+          'into Facebook.';
+
+        // upon logout of Facebook app, remove all events from page
+        document.getElementById('flex-parent').innerHTML = ''
+      }
+    }
+
+    // checkLoginState will check login status and send data as reponse object to statusChangeCallback
+    function checkLoginState() {
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+    }
       window.fbAsyncInit = function() {
         FB.init({
           appId      : '1843900205894102',
@@ -169,6 +197,15 @@ flex_parent.appendChild(parent)
       });
 
       // async load of Javascript SDK. Executes SDK on page upon page load
+      // (function(d, s, id) {
+      //   var js, fjs = d.getElementsByTagName(s)[0];
+      //   if (d.getElementById(id)) return;
+      //   js = d.createElement(s); js.id = id;
+      //   js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1843900205894102";
+      //   fjs.parentNode.insertBefore(js, fjs);
+      // }(document, 'script', 'facebook-jssdk'));
+
+
       (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
@@ -183,12 +220,11 @@ flex_parent.appendChild(parent)
     </div>
 
 
-    <img id="fbLogout"src="logout.png" alt="logout">
+    <!-- <img id="fbLogout"src="logout.png" alt="logout"> -->
 
-    <!-- <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false" onlogin="window.location.reload()"></div> -->
+    <!-- <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false" onlogin="window.location.reload()"></div>
 
-    <!-- <fb:login-button class="fb-login-button" scope="public_profile,email" onlogin="checkLoginState();" data-auto-logout-link="true"></fb:login-button> -->
-
+    <fb:login-button class="fb-login-button" scope="public_profile,email" onlogin="checkLoginState();" data-auto-logout-link="true"></fb:login-button> -->
 
     <br>
     <br>
@@ -196,6 +232,9 @@ flex_parent.appendChild(parent)
     <a href="/">
       <button type="button" name="button">Visit Events</button>
     </a>
+
+    <fb:login-button class="fb-login-button" scope="public_profile,email" data-size="large" onlogin="checkLoginState();" data-auto-logout-link="true">
+    </fb:login-button>
 
     <br>
 
