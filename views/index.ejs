@@ -23,7 +23,7 @@
         if (response.status === 'connected') {
           // Logged into your app and Facebook.
           testAPI();
-          setTimeout(checkForEvents, 4000)
+          setTimeout(checkForEvents, 5000)
           $('#visit-button').show()
         } else if (response.status === 'not_authorized') {
           // The person is logged into Facebook, but not your app.
@@ -36,7 +36,7 @@
           document.getElementById('status').innerHTML = 'Please log ' +
             'into Facebook.';
           $('#visit-button').hide()
-          
+
           // upon logout of Facebook app, remove all events from page
           document.getElementById('flex-parent').innerHTML = ''
           $('#visit-button').hide()
