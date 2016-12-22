@@ -20,3 +20,8 @@ Upcoming features:
 
 Overall, this project was pretty rewarding since I finally gained hands on experience with the Facebook Graph API and I know many other students have never worked with it. I feel like this is an app that I'd definitely like to use for personal benefit and hope to develop it further.
 
+
+![EventsFinder](https://github.com/Dawa12/final-project/blob/master/public/README%20images/Events%20Page.png?raw=true)
+![EventsFinder](https://github.com/Dawa12/final-project/blob/master/public/README%20images/Events%20Page.png)
+
+
