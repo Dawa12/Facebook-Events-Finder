@@ -1,0 +1,36 @@
+html,
+body {
+  height: 100vh;
+}
+
+#events {
+  color: blue;
+}
+
+span {
+  color: red;
+}
+
+h1 {
+  font-family: 'Dosis', sans-serif;
+  border: 3px solid black;
+  display: inline;
+  padding: 30px;
+  margin: 20px;
+  box-shadow: 2px 2px 2px 1px orange;
+  border-radius: 20px;
+  height: 150px;
+  width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#logo-container {
+  width: 200px;
+  height: 200px;
+  margin: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
