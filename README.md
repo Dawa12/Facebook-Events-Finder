@@ -20,4 +20,3 @@ Upcoming features:
 
 Overall, this project was pretty rewarding since I finally gained hands on experience with the Facebook Graph API and I know many other students have never worked with it. I feel like this is an app that I'd definitely like to use for personal benefit and hope to develop it further.
 
-# final_project
