@@ -28,13 +28,13 @@ Overall, this project was pretty rewarding since I finally gained hands on exper
 <img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/homepage.png" width="600">
 
 ### Facebook Login Modal
-<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Facebook%20Login%20Modol.png?raw=true" width="600">
+<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Facebook%20Login%20Modol.png?raw=true" width="300">
 
 ### Upcoming Events
-<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Events%20Page.png" width="600">
+<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Events%20Page.png" width="700">
 
 ### Posts
-<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Feed%20Page.png?raw=true" width="600">
+<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Feed%20Page.png?raw=true" width="700">
 
 
 
