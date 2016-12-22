@@ -25,16 +25,16 @@ Overall, this project was pretty rewarding since I finally gained hands on exper
 # EventsFinder Screenshots
 
 ### Login and Homepage
-<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/homepage.png" width="700" height="600">
+<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/homepage.png" width="600">
 
 ### Facebook Login Modal
-<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Facebook%20Login%20Modol.png?raw=true" width="400">
+<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Facebook%20Login%20Modol.png?raw=true" width="600">
 
 ### Upcoming Events
-<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Events%20Page.png" width="400">
+<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Events%20Page.png" width="600">
 
 ### Posts
-<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Feed%20Page.png?raw=true" width="400">
+<img src="https://github.com/Dawa12/final-project/blob/master/public/README%20images/Feed%20Page.png?raw=true" width="600">
 
 
 
