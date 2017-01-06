@@ -160,7 +160,6 @@ console.log('likes_array: ', likes_array);
 
                 parent.appendChild(start_time)
 
-
                 getPageName()
 
                 function getPageName() {
@@ -211,6 +210,8 @@ link.textContent = "Go to Event Page"
 parent.appendChild(link)
 
 flex_parent.appendChild(parent)
+
+console.log('flex-parent div: ', flex_parent);
 // document.body.appendChild(separator)
 
                   // $('body').append(container)
@@ -236,7 +237,7 @@ $('#fbLogout').hide()
       }
 
       function checkForEvents() {
-        if ($('#flex-parent').children().length <= 1) {
+        if ($('#flex-parent').children().length == 0) {
           let message = $('<h5></h5>').text('None of the pages that you liked have upcoming events. Try visiting the Feed')
           // $('#flex-parent').append(message)
           alert('None of the pages that you liked have upcoming events. Try visiting the Feed')
