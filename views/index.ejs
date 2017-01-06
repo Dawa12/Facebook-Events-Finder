@@ -23,7 +23,7 @@
         if (response.status === 'connected') {
           // Logged into your app and Facebook.
           testAPI();
-          setTimeout(checkForEvents, 5000)
+          setTimeout(checkForEvents, 2000)
           $('#visit-button').show()
         } else if (response.status === 'not_authorized') {
           // The person is logged into Facebook, but not your app.
@@ -258,7 +258,10 @@ $('#fbLogout').hide()
 
     <br>
 
-    <fb:login-button class="fb-login-button" scope="public_profile,email" data-size="large" onlogin="checkLoginState();" data-auto-logout-link="true">
+    <!-- login / logout button plugin configurator source: https://developers.facebook.com/docs/facebook-login/web/login-button -->
+
+    <!--  requesting user permissions here-->
+    <fb:login-button class="fb-login-button" scope="public_profile,user_likes" data-size="large" onlogin="checkLoginState();" data-auto-logout-link="true">
     </fb:login-button>
 
     <div id="status">
