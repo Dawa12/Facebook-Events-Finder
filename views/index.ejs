@@ -105,7 +105,6 @@
             let likes_array = response.likes.data
 
             console.log('likes_array: ', likes_array);
-            //
             let flex_parent = document.getElementById("flex-parent")
             // flex_parent.className = "flex-parent"
             // document.body.appendChild(flex_parent)
@@ -131,9 +130,10 @@
                 // skip the event if it's time is in the past
                 let fb_time = new Date(start_time.textContent)
                 let now = new Date()
-                if (now > fb_time) {
-                  continue
-                }
+                // if (now > fb_time) {
+                //   continue
+                // debugger
+                // }
 
                 let event_name = document.createElement("P");
                 event_name.className = "event_name"
@@ -161,10 +161,10 @@
                 parent.className = "parent"
 
                 parent.appendChild(start_time)
-
                 getPageName()
 
                 function getPageName() {
+                  console.log('getpagename function');
                   FB.api(
                     `/${likes_array[i].id}?fields=picture,name`,
                     function (response) {
@@ -180,6 +180,7 @@
                 }
 
                 function appendElementsToDocument(arr) {
+                  console.log('running appending function');
                   name.textContent = 'Name: ' + hold_name
                   // console.log('name', name);
 
@@ -210,7 +211,6 @@
 
                   link.textContent = "Go to Event Page"
                   parent.appendChild(link)
-
                   flex_parent.appendChild(parent)
 
                   console.log('flex-parent div: ', flex_parent);
@@ -242,7 +242,8 @@
       if ($('#flex-parent').children().length == 0) {
         let message = $('<h5></h5>').text('None of the pages that you liked have upcoming events. Try visiting the Feed')
         // $('#flex-parent').append(message)
-        alert('None of the pages that you liked have upcoming events. Try visiting the Feed')
+        // alert('None of the pages that you liked have upcoming events. Try visiting the Feed')
+        console.log('None of the pages that you liked have upcoming events. Try visiting the Feed');
       } else {
         console.log('user has one or more upcoming events');
       }
