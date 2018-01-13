@@ -1,111 +1,110 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Liked Page</title>
-    <link rel="stylesheet" href="/index.css">    
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
-    <link rel="" type="" href="./public/bootstrap.min.css">
 
+<head>
+  <meta charset="utf-8">
+  <title>Liked Page</title>
+  <link rel="stylesheet" href="/index.css">
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
+</head>
 
-  </head>
-  <body>
-    <div id="fb-root"></div>
-    <script>
-      // statusChangeCallback, checkLoginState, window.fbAsyncInit, testAPI functions referenced from FB docs to initialize Facebook Javascript SDK and setup app: https://developers.facebook.com/docs/facebook-login/web
+<body>
+  <div id="fb-root"></div>
+  <script>
+    // statusChangeCallback, checkLoginState, window.fbAsyncInit, testAPI functions referenced from FB docs to initialize Facebook Javascript SDK and setup app: https://developers.facebook.com/docs/facebook-login/web
 
-      $(function() {
-        // Handler for .ready() called.
+    $(function () {
+      // Handler for .ready() called.
+      $('#visit-button').hide()
+    });
+
+    function statusChangeCallback(response) {
+      // response object reflects user's logged in status and state as well as access token / user ID
+      console.log('response: ', response);
+
+      if (response.status === 'connected') {
+        // Logged into your app and Facebook.
+        testAPI();
+        setTimeout(checkForEvents, 2000)
+        $('#visit-button').show()
+      } else if (response.status === 'not_authorized') {
+        // The person is logged into Facebook, but not your app.
+        document.getElementById('status').innerHTML = 'Please log ' +
+          'into this app.';
+
+      } else {
+        // The person is not logged into Facebook, so we're not sure if
+        // they are logged into this app or not.
+        document.getElementById('status').innerHTML = 'Please log ' +
+          'into Facebook.';
         $('#visit-button').hide()
+
+        // upon logout of Facebook app, remove all events from page
+        document.getElementById('flex-parent').innerHTML = ''
+        $('#visit-button').hide()
+      }
+    }
+
+    // checkLoginState will check login status and send data as reponse object to statusChangeCallback
+    function checkLoginState() {
+      FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+      });
+    }
+
+    // Initialize Facebook JS SDK
+    window.fbAsyncInit = function () {
+      FB.init({
+        appId: '1843900205894102',
+        cookie: true,  // enable cookies to allow the server to access
+        // the session
+        xfbml: true,  // parse social plugins on this page
+        version: 'v2.8' // use graph api version 2.8
       });
 
-      function statusChangeCallback(response) {
-        // response object reflects user's logged in status and state as well as access token / user ID
-        console.log('response: ', response);
+      FB.getLoginStatus(function (response) {
+        statusChangeCallback(response);
+      });
+    };
 
-        if (response.status === 'connected') {
-          // Logged into your app and Facebook.
-          testAPI();
-          setTimeout(checkForEvents, 2000)
-          $('#visit-button').show()
-        } else if (response.status === 'not_authorized') {
-          // The person is logged into Facebook, but not your app.
-          document.getElementById('status').innerHTML = 'Please log ' +
-            'into this app.';
+    // Load the SDK asynchronously
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1843900205894102";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 
-        } else {
-          // The person is not logged into Facebook, so we're not sure if
-          // they are logged into this app or not.
-          document.getElementById('status').innerHTML = 'Please log ' +
-            'into Facebook.';
-          $('#visit-button').hide()
+    // Here we run a very simple test of the Graph API after login is
+    // successful.  See statusChangeCallback() for when this call is made.
+    function testAPI() {
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me', function (response) {
+        console.log('Successful login for: ' + response.name);
+        document.getElementById('status').innerHTML =
+          'Thanks for logging in, ' + response.name + '!';
+      });
 
-          // upon logout of Facebook app, remove all events from page
-          document.getElementById('flex-parent').innerHTML = ''
-          $('#visit-button').hide()
-        }
-      }
+      checkLoginState2()
+    }
 
-      // checkLoginState will check login status and send data as reponse object to statusChangeCallback
-      function checkLoginState() {
-        FB.getLoginStatus(function(response) {
-          statusChangeCallback(response);
-        });
-      }
-
-      // Initialize Facebook JS SDK
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId      : '1843900205894102',
-          cookie     : true,  // enable cookies to allow the server to access
-                              // the session
-          xfbml      : true,  // parse social plugins on this page
-          version    : 'v2.8' // use graph api version 2.8
-        });
-
-        FB.getLoginStatus(function(response) {
-          statusChangeCallback(response);
-        });
-      };
-
-      // Load the SDK asynchronously
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1843900205894102";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-
-      // Here we run a very simple test of the Graph API after login is
-      // successful.  See statusChangeCallback() for when this call is made.
-      function testAPI() {
-        console.log('Welcome!  Fetching your information.... ');
-        FB.api('/me', function(response) {
-          console.log('Successful login for: ' + response.name);
-          document.getElementById('status').innerHTML =
-            'Thanks for logging in, ' + response.name + '!';
-        });
-
-        checkLoginState2()
-      }
-
-      function checkLoginState2() {
+    function checkLoginState2() {
       // do FB get calls inside of getLoginStatus method
       // source: http://stackoverflow.com/questions/26709869/an-active-access-token-must-be-used-to-query-information-about-the-current-user
       // once user is logged in, execute this large block
 
-      FB.getLoginStatus(function(response) {
-          if (response.status === 'connected') {
-            // $('.fb-login-button').hide()
-            $('#fbLogout').show()
+      FB.getLoginStatus(function (response) {
+        if (response.status === 'connected') {
+          // $('.fb-login-button').hide()
+          $('#fbLogout').show()
 
-            FB.api('/me', 'GET', {fields: 'likes.limit(500){about,category,category_list,description,events.limit(2){start_time,end_time,name}},first_name,last_name,name,id,picture.width(150).height(150)'}, function(response) {
-console.log('response', response);
+          FB.api('/me', 'GET', { fields: 'likes.limit(500){about,category,category_list,description,events.limit(2){start_time,end_time,name}},first_name,last_name,name,id,picture.width(150).height(150)' }, function (response) {
+            console.log('response', response);
 
-              let likes_array = response.likes.data
+            let likes_array = response.likes.data
 
-console.log('likes_array: ', likes_array);
+            console.log('likes_array: ', likes_array);
             //
             let flex_parent = document.getElementById("flex-parent")
             // flex_parent.className = "flex-parent"
@@ -123,7 +122,7 @@ console.log('likes_array: ', likes_array);
 
                 // skip showing fan page if it does not contain any events
                 if (!(likes_array[i].events)) {
-                 continue
+                  continue
                 }
 
                 var start_time = document.createElement("p");
@@ -151,8 +150,8 @@ console.log('likes_array: ', likes_array);
                     //  continue
                   }
                 } else {
-//  console.log('inside if false');
-//  console.log('no events for ', likes_array[i].about);
+                  //  console.log('inside if false');
+                  //  console.log('no events for ', likes_array[i].about);
                 }
 
                 var hold_name;
@@ -188,13 +187,13 @@ console.log('likes_array: ', likes_array);
                     // document.body.appendChild(name);
                     parent.appendChild(name)
                     // $('.container').append(name)
-// console.log('container', container);
+                    // console.log('container', container);
 
                   }
                   if (!(event_name.textContent.length == 0)) {
                     // document.body.append(event_name);
                     parent.appendChild(event_name)
-// console.log('start_time', start_time);
+                    // console.log('start_time', start_time);
                     // parent.appendChild(start_time)
                   }
 
@@ -204,74 +203,76 @@ console.log('likes_array: ', likes_array);
                     parent.appendChild(location)
                   }
 
-// console.log('arr[i]', arr[i]);
-let link = document.createElement('a')
+                  // console.log('arr[i]', arr[i]);
+                  let link = document.createElement('a')
 
-link.setAttribute('href', `https://www.facebook.com/events/${arr[i].events.data[0].id}`)
+                  link.setAttribute('href', `https://www.facebook.com/events/${arr[i].events.data[0].id}`)
 
-link.textContent = "Go to Event Page"
-parent.appendChild(link)
+                  link.textContent = "Go to Event Page"
+                  parent.appendChild(link)
 
-flex_parent.appendChild(parent)
+                  flex_parent.appendChild(parent)
 
-console.log('flex-parent div: ', flex_parent);
-// document.body.appendChild(separator)
+                  console.log('flex-parent div: ', flex_parent);
+                  // document.body.appendChild(separator)
 
                   // $('body').append(container)
                 }
-// closing for loop block
+                // closing for loop block
               }
             }
 
-// closing FB.api('/me'
-            })
+            // closing FB.api('/me'
+          })
           // closing FB.login conditional
-          } else {
-
-console.log('Failed to connet to EventsFinder successfully. Try logging in again, or reloading page to show events');
-
-$('.fb-login-button').show()
-$('#visit-buttton').hide()
-$('#fbLogout').hide()
-            // FB.loginStatus if condition
-          }
-      // closing FB.getLoginStatus function
-        });
-      }
-
-      function checkForEvents() {
-        if ($('#flex-parent').children().length == 0) {
-          let message = $('<h5></h5>').text('None of the pages that you liked have upcoming events. Try visiting the Feed')
-          // $('#flex-parent').append(message)
-          alert('None of the pages that you liked have upcoming events. Try visiting the Feed')
         } else {
-          console.log('user has one or more upcoming events');
+
+          console.log('Failed to connet to EventsFinder successfully. Try logging in again, or reloading page to show events');
+
+          $('.fb-login-button').show()
+          $('#visit-buttton').hide()
+          $('#fbLogout').hide()
+          // FB.loginStatus if condition
         }
+        // closing FB.getLoginStatus function
+      });
+    }
+
+    function checkForEvents() {
+      if ($('#flex-parent').children().length == 0) {
+        let message = $('<h5></h5>').text('None of the pages that you liked have upcoming events. Try visiting the Feed')
+        // $('#flex-parent').append(message)
+        alert('None of the pages that you liked have upcoming events. Try visiting the Feed')
+      } else {
+        console.log('user has one or more upcoming events');
       }
+    }
 
-    </script>
+  </script>
 
-    <div>
-      <h1 id="head">Events Finder</h1>
-    </div>
+  <div>
+    <h1 id="head">Events Finder</h1>
+  </div>
 
-    <a href="/posts">
-      <button id="visit-button" type="button" name="button">Visit Feed</button>
-    </a>
+  <a href="/posts">
+    <button id="visit-button" type="button" name="button">Visit Feed</button>
+  </a>
 
-    <br>
+  <br>
 
-    <!-- login / logout button plugin configurator source: https://developers.facebook.com/docs/facebook-login/web/login-button -->
+  <!-- login / logout button plugin configurator source: https://developers.facebook.com/docs/facebook-login/web/login-button -->
 
-    <!--  requesting user permissions here-->
-    <fb:login-button class="fb-login-button" scope="public_profile,user_likes" data-size="large" onlogin="checkLoginState();" data-auto-logout-link="true">
-    </fb:login-button>
+  <!--  requesting user permissions here-->
+  <fb:login-button class="fb-login-button" scope="public_profile,user_likes" data-size="large" onlogin="checkLoginState();"
+    data-auto-logout-link="true">
+  </fb:login-button>
 
-    <div id="status">
-    </div>
+  <div id="status">
+  </div>
 
-    <div id="flex-parent"></div>
-    <!-- Bootstrap JS -->
-      <link rel="" type="" href="./public/bootstrap.min.js">
-  </body>
+  <div id="flex-parent"></div>
+  <!-- Bootstrap JS -->
+  <link rel="" type="" href="./public/bootstrap.min.js">
+</body>
+
 </html>
